@@ -10,7 +10,7 @@ $logFile = 'transaction_switch.log';
 $networkSimulatorUrl = 'http://network-simulator-device/network_simulator.php';
 
 // Flag to enable/disable Network Simulator (set to false for local testing)
-$useNetworkSimulator = true;
+$useNetworkSimulator = false;
 
 // Function to log messages to the log file
 function logMessage($message) {
