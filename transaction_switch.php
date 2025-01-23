@@ -25,29 +25,22 @@ if (empty($data) || !isset($data['card_number']) || !isset($data['amount']) || !
 // Log the incoming transaction
 logMessage("Received transaction: " . json_encode($data));
 
-// Simulate forwarding to the Network Simulator
-$networkSimulatorUrl = "http://127.0.0.1:8001/process_transaction"; // Replace with actual URL
-$options = [
-    'http' => [
-        'header'  => "Content-Type: application/json\r\n",
-        'method'  => 'POST',
-        'content' => json_encode($data),
-    ],
-];
-$context  = stream_context_create($options);
-$response = file_get_contents($networkSimulatorUrl, false, $context);
-
-if ($response === FALSE) {
-    // Log the error
-    logMessage("Failed to communicate with Network Simulator");
-    http_response_code(500); // Internal Server Error
-    echo json_encode(["status" => "error", "message" => "Network Simulator communication failed"]);
-    exit;
+// Simulate the Network Simulator response
+if ($data['transaction_type'] == 'withdrawal') {
+    if ($data['amount'] > 0) {
+        $response = ["status" => "approved", "message" => "Transaction approved"];
+    } else {
+        $response = ["status" => "denied", "message" => "Invalid amount"];
+    }
+} elseif ($data['transaction_type'] == 'balance_inquiry') {
+    $response = ["status" => "approved", "message" => "Balance inquiry successful"];
+} else {
+    $response = ["status" => "denied", "message" => "Invalid transaction type"];
 }
 
-// Log the response from the Network Simulator
-logMessage("Network Simulator response: $response");
+// Log the response
+logMessage("Simulated Network Simulator response: " . json_encode($response));
 
 // Return the response to the ATM application
-echo $response;
+echo json_encode($response);
 ?>
