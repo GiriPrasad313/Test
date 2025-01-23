@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 $logFile = 'transaction_switch.log';
 
 // Network Simulator URL (replace with the actual URL of the Network Simulator)
-$networkSimulatorUrl = 'http://network-simulator-device/network_simulator.php';
+$networkSimulatorUrl = 'https://transaction-switch.onrender.com/network_simulator.php';
 
 // Function to log messages to the log file
 function logMessage($message) {
